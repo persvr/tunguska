@@ -1,0 +1,13 @@
+{
+	"name": "tunguska",
+	"author": "Kris Zyp",
+	"dependencies": [],
+	"contributors": [],
+	"keywords": [
+		"comet",
+		"pubsub"
+	],
+	"githubName": "tunguska",
+	"type": "zip",
+	"location": "http://github.com/kriszyp/tunguska/zipball/master"
+}
