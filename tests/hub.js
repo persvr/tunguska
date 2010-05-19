@@ -1,7 +1,7 @@
 var assert = require("assert");
 var hub = require("../lib/hub");
 
-exports.basic = function(test, finished){
+exports.testBasic = function(finished){
 	var listener = function(message){
 		assert.equal(message.bar, 3);
 		finished();
@@ -16,11 +16,11 @@ exports.basic = function(test, finished){
 	});
 };
 
-exports.excludeClient = function(test){
+exports.testExcludeClient = function(){
 	var listener = function(message){
 		assert.fail("Same client should not be called");
 	};
-	listener.id = "test-client";
+	listener.clientId = "test-client";
 	hub.subscribe("foo", listener);
 	hub.publish("foo", {
 		bar: 3,
@@ -29,7 +29,7 @@ exports.excludeClient = function(test){
 	hub.unsubscribe("foo", listener);
 };
 
-exports.eventType = function(test, finished){
+exports.testEventType = function(finished){
 	var listener = function(message){
 		assert.equal(message.event, "bar");
 		finished();
@@ -43,7 +43,7 @@ exports.eventType = function(test, finished){
 	});
 	hub.unsubscribe("foo", listener);
 };
-exports.listenForSubscribe= function(test, finished){
+exports.listenForSubscribe= function(finished){
 	var count = 0;
 	var listener = function(message){
 		assert.equal(message.event, "monitored");
@@ -56,14 +56,20 @@ exports.listenForSubscribe= function(test, finished){
 	hub.subscribe("foo", listener);
 	hub.unsubscribe("foo", listener);
 };
- 
-if (require.main === module.id){
-	try{
-		var suite = new (require("http://github.com/bentomas/node-async-testing/raw/master/async_testing.js").TestSuite);
-	}catch(e){}
-    if(suite){
-    	suite.addTests(exports).runTests();
-    }else{
-    	require("test/runner").run(exports);
-    }
+
+print = require("system").print;
+if (require.main === module){
+	for(var i in exports){
+		if(i.substring(0,4) == "test"){
+			var test = exports[i];
+			print(i + " started");
+			try{
+				test.length > 0 ? test(function(){
+					print(i + " finished ");
+				}) : (test() & print(i + " finished"));
+			}catch(e){
+				print(i + " failed: " + e.stack);
+			}
+		}
+	}
 }
