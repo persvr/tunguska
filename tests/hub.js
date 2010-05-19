@@ -30,22 +30,22 @@ exports.testExcludeClient = function(){
 
 exports.testEventType = function(finished){
 	var listener = function(message){
-		assert.equal(message.event, "bar");
+		assert.equal(message.type, "bar");
 		finished();
 	};
 	hub.subscribe("foo", "bar", listener);
 	hub.publish("foo", {
-		event: "notbar"
+		type: "notbar"
 	});
 	hub.publish("foo", {
-		event: "bar"
+		type: "bar"
 	});
 	hub.unsubscribe("foo", listener);
 };
 exports.listenForSubscribe= function(finished){
 	var count = 0;
 	var listener = function(message){
-		assert.equal(message.event, "monitored");
+		assert.equal(message.type, "monitored");
 		count++;
 		if(count == 2){
 			finished();
