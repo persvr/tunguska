@@ -17,9 +17,9 @@ such that lib/hub.js is available through the tunguska path:
 If you are using [Nodules](http://github.com/kriszyp/nodules) you can map to tunguska
 by adding this line to your package.json (And Tunguska will automatically be downloaded for you):
 
-"mappings": {
-	"tunguska": "jar:http://github.com/kriszyp/tunguska/zipball/master!/lib/"
-}
+    "mappings": {
+	  "tunguska": "jar:http://github.com/kriszyp/tunguska/zipball/master!/lib/"
+    }
 
 Now to subscribe to a channel:
 
@@ -71,13 +71,16 @@ whenever a channel becomes free of any subscribers. For example:
 Tunguska provides echo suppression by defining client identities. This is an important
 feature for distributed pubsub because it allows you to define efficient message routing
 without messages bouncing back and forth. To define a client identity, you can set
-an "id" property on the listener function provided to a subscribe call:
+an "clientId" property on the listener function provided to a subscribe call:
 
     function listenerFunction(message){
         // do something with the messages that are received
     }
-    listenerFunction.id = "client-1";
+    listenerFunction.clientId = "client-1";
     hub.subscribe("name/of/channel", listenerFunction);
+
+The clientId property may be an array if there are a list of client of client identities that 
+should be excluded.
 
 Now when we publish a message, we can also define the identity of the client with the
 "clientId" property in the message. A message with a "clientId" will be withheld from
