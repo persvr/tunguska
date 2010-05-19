@@ -20,13 +20,12 @@ exports.testExcludeClient = function(){
 	var listener = function(message){
 		assert.fail("Same client should not be called");
 	};
-	listener.clientId = "test-client";
-	hub.subscribe("foo", listener);
-	hub.publish("foo", {
-		bar: 3,
-		clientId: "test-client"
+	clientHub = hub.fromClient("test-client");
+	clientHub.subscribe("foo", listener);
+	clientHub.publish("foo", {
+		bar: 3
 	});
-	hub.unsubscribe("foo", listener);
+	clientHub.unsubscribe("foo", listener);
 };
 
 exports.testEventType = function(finished){
