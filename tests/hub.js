@@ -56,7 +56,7 @@ exports.listenForSubscribe= function(finished){
 	hub.unsubscribe("foo", listener);
 };
 
-print = require("commonjs-utils/system").print;
+print = require("commonjs-utils/sys").print;
 if (require.main === module){
 	for(var i in exports){
 		if(i.substring(0,4) == "test"){
