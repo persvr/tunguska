@@ -9,5 +9,8 @@
 	],
 	"githubName": "tunguska",
 	"type": "zip",
+	"mappings":{
+		"patr": "jar:http://github.com/kriszyp/patr/zipball/master!/lib/"
+	},
 	"location": "http://github.com/kriszyp/tunguska/zipball/master"
 }

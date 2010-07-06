@@ -56,19 +56,5 @@ exports.listenForSubscribe= function(finished){
 	hub.unsubscribe("foo", listener);
 };
 
-print = require("promised-io/process").print;
-if (require.main === module){
-	for(var i in exports){
-		if(i.substring(0,4) == "test"){
-			var test = exports[i];
-			print(i + " started");
-			try{
-				test.length > 0 ? test(function(){
-					print(i + " finished ");
-				}) : (test() & print(i + " finished"));
-			}catch(e){
-				print(i + " failed: " + e.stack);
-			}
-		}
-	}
-}
+if (require.main === module)
+    require("patr/runner").run(exports);
