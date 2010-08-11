@@ -161,19 +161,19 @@ framed stream connection provided by multi-node for connecting processes. Here
 is an example of connecting the processes initiated by multi-node for distributed 
 pub/sub across all the processes:
 
-  var multiNode = require("multi-node/multi-node"),
-      Connector = require("tunguska/connector").Connector;
-  // start the multiple processes
-  var nodes = multiNode.listen({port: 80, nodes: 4}, serverObject);
-  // add a listener for each connection to the other sibling process
-  nodes.addListener("node", function(stream){
-    // create a new connector using the framed WS stream
-    Connector("local-workers", multiNode.frameStream(stream));
-  });
+    var multiNode = require("multi-node/multi-node"),
+        Connector = require("tunguska/connector").Connector;
+    // start the multiple processes
+    var nodes = multiNode.listen({port: 80, nodes: 4}, serverObject);
+    // add a listener for each connection to the other sibling process
+    nodes.addListener("node", function(stream){
+      // create a new connector using the framed WS stream
+      Connector("local-workers", multiNode.frameStream(stream));
+    });
 
 The Connection constructor takes two arguments:
 
-  Connector(connectionId, framedWebSocketStream);
+    Connector(connectionId, framedWebSocketStream);
 
 The connectionId identifies the source of the messages, and utilizes echo suppression
 to route messages properly. A message that is broadcast from one connection won't
