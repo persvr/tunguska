@@ -1,8 +1,9 @@
 [Tunguska](http://en.wikipedia.org/wiki/Tunguska_event) is a comet-based 
 distributed publish/subscribe hub for server side JavaScript (Node, Rhino/Narwhal).
-Tunguska is publish subscribe framework for 
-building applications around a publish-subscribe system with real-time message delivery
-to browsers. Tunguska consists of several modules:
+Tunguska is publish subscribe framework for building applications around a 
+publish-subscribe system with real-time message delivery
+to browsers. An introduction to Tunguska can be [found here](http://www.sitepen.com/blog/2010/07/19/real-time-comet-applications-on-node-with-tunguska/).
+Tunguska consists of several modules:
 
 lib/hub.js
 ========
@@ -152,5 +153,35 @@ Connectors
 
 Connectors provide a means for connecting hubs in different processes and on 
 different machines, thus allowing for distributed publish/subscribe systems. Connectors
-are provided for worker-based communication and HTTP-based communication between
-hubs.
+are provided for worker-based communication, WebSocket communication 
+(and in the future, HTTP-based communication) between hubs. The connectors 
+communicate through a framed stream, following the 
+WebSocket API. One can easily use a WebSocket connection or one can use the 
+framed stream connection provided by multi-node for connecting processes. Here
+is an example of connecting the processes initiated by multi-node for distributed 
+pub/sub across all the processes:
+
+  var multiNode = require("multi-node/multi-node"),
+      Connector = require("tunguska/connector").Connector;
+  // start the multiple processes
+  var nodes = multiNode.listen({port: 80, nodes: 4}, serverObject);
+  // add a listener for each connection to the other sibling process
+  nodes.addListener("node", function(stream){
+    // create a new connector using the framed WS stream
+    Connector("local-workers", multiNode.frameStream(stream));
+  });
+
+The Connection constructor takes two arguments:
+
+  Connector(connectionId, framedWebSocketStream);
+
+The connectionId identifies the source of the messages, and utilizes echo suppression
+to route messages properly. A message that is broadcast from one connection won't
+get rerouted back to the same connector/client causing duplicate messages. The 
+second argument is the framed stream that follows the WebSocket API. 
+
+One can utilize different connectionIds to connect different networks for more sophisticated
+topologies. For example, one could have a set of connectors for local processes with one id ("local-workers"),
+and a connector for a remote server with another id ("servers"). A message received the other
+server would not be echoed back to that server, but it would properly get routed to 
+the local worker processes.
