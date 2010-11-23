@@ -1,6 +1,7 @@
 {
   "name": "tunguska",
   "author": "Kris Zyp",
+  "version": "0.2.2",
   "dependencies": [],
   "keywords": [
     "comet",
