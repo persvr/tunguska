@@ -1,16 +1,35 @@
 {
-	"name": "tunguska",
-	"author": "Kris Zyp",
-	"dependencies": [],
-	"contributors": [],
-	"keywords": [
-		"comet",
-		"pubsub"
-	],
-	"githubName": "tunguska",
-	"type": "zip",
-	"mappings":{
-		"patr": "http://github.com/kriszyp/patr/zipball/v0.2.1"
-	},
-	"location": "http://github.com/kriszyp/tunguska/zipball/master"
+  "name": "tunguska",
+  "author": "Kris Zyp",
+  "dependencies": [],
+  "keywords": [
+    "comet",
+    "pubsub"
+  ],
+  "githubName": "tunguska",
+  "mappings":{
+    "patr": "http://github.com/kriszyp/patr/zipball/v0.2.1"
+  },
+  "licenses": [
+     {
+         "type": "AFLv2.1",
+         "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L43"
+     },
+     {
+         "type": "BSD",
+         "url": "http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L13"
+     }
+  ],
+  "repository": {
+    "type":"git",
+    "url":"http://github.com/kriszyp/tunguska"
+  },
+  "contributors": [
+  ],
+  "directories": {
+    "lib": "./lib"
+  },
+  "dependencies":{
+    "patr": ">=0.2.1"
+  }
 }
