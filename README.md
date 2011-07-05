@@ -57,6 +57,16 @@ or we can use double asterisk for recursive wildcard, to subscribe to everything
 
     hub.subscribe("**", listenerFunction);
 
+In addition, we can use tagged subscriptions to subscribe to a subset of tagged messages on a channel:
+
+    hub.subscribe("name/of/*:tagname", listenerFunction);
+
+Using tags requires that objects are published with a tag:
+
+    hub.publish("name/of/channel:tagname", {foo:"bar"});
+
+Messages that are published with a tag will be sent to all subscribers that are subscribed to a matching tag, or that are subscribed to the base channel without a tag.
+
 Tunguska also supports named event sub-types within each channel. The subscribe
 function takes an optional second parameter for specifying a specific event type
 to listen for. For example,
