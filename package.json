@@ -2,6 +2,7 @@
   "name": "tunguska",
   "author": "Kris Zyp",
   "version": "0.2.2",
+  "description": "Distributed publish/subscribe hub with Comet-style delivery of messages to browsers",
   "dependencies": [],
   "keywords": [
     "comet",
