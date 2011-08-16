@@ -37,7 +37,7 @@
   "directories": {
     "lib": "./lib"
   },
-  "dependencies":{
+  "testDependencies":{
     "patr": ">=0.2.1"
   }
 }
