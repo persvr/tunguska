@@ -1,7 +1,7 @@
 {
   "name": "tunguska",
   "author": "Kris Zyp",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "Distributed publish/subscribe hub with Comet-style delivery of messages to browsers",
   "dependencies": [],
   "keywords": [
@@ -35,9 +35,12 @@
   "contributors": [
   ],
   "directories": {
-    "lib": "./lib"
+    "lib": "."
   },
-  "dependencies":{
-    "patr": ">=0.2.1"
+  "devDependencies":{
+    "patr": ">0.2.6"
+  },
+  "dependencies": {
+    "promised-io": ">0.2.3"
   }
 }
