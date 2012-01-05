@@ -1,7 +1,7 @@
 [Tunguska](http://en.wikipedia.org/wiki/Tunguska_event) is a comet-based 
 distributed publish/subscribe hub for server side JavaScript (NodeJS, Rhino/RingoJS).
-Tunguska is publish subscribe framework for building applications around a 
-publish-subscribe system with real-time message delivery
+Tunguska enables building applications around a 
+pubsub paradigm with real-time message delivery
 to browsers. An introduction to Tunguska can be [found here](http://www.sitepen.com/blog/2010/07/19/real-time-comet-applications-on-node-with-tunguska/).
 Tunguska can be installed as NPM package using:
 
@@ -9,7 +9,7 @@ Tunguska can be installed as NPM package using:
     
 Tunguska consists of several modules:
 
-## hub
+# hub
 
 This is the actual publish-subscribe hub. The hub is a simple, easy to use set of channels
 for publishing and listening for events, but includes some powerful features. To use the
@@ -31,7 +31,7 @@ And to unsubscribe:
 
     hub.unsubscribe("name/of/channel", listenerFunction);
 
-### Return Values
+## Return Values
 
 Calls to publish, subscribe, and unsubscribe will return an array of promises that 
 represent the eventual return value from each subscriber. One can therefore determine
@@ -39,7 +39,7 @@ when all the messages have been delivered, and if there was failures. In a distr
 environment, the return value from subscription requests can be monitored to determine when the subscription
 has been distributed to all hubs.
 
-### Globbing/Wildcards
+## Globbing/Wildcards
 
 Tunguska supports wildcarding/globbing for subscriptions. We can subscribe to a set
 of channels like:
@@ -67,7 +67,7 @@ we could choose to only listen to the "system" messages on a channel:
 
     hub.subscribe("name/of/channel", "system", systemListener);
  
-### Named Events
+## Named Events
 
 And we can define name of the type of events with the "type" property in our published 
 messages. For example:
@@ -88,7 +88,7 @@ whenever a channel becomes free of any subscribers. For example:
 
 (This is used by the connectors) 
 
-### Client Identity/Echo Suppression
+## Client Identity/Echo Suppression
     
 Tunguska provides echo suppression by defining client identities. This is an important
 feature for distributed pubsub because it allows you to define efficient message routing
@@ -111,11 +111,11 @@ client. For example:
     hub.fromClient("client-1").publish("name/of/channel", {name:"msg-1"}); // will not fire the listenerFunction above
     hub.fromClient("client-2").publish("name/of/channel", {name:"msg-2"}); // will fire the listenerFunction
     
-### jsgi/comet
+# jsgi/comet
 
 This module consists of several JSGI appliances.
 
-#### Connections
+## Connections
 
     require("tunguska/jsgi/comet").Connections(nextApp)
     
@@ -132,7 +132,7 @@ request.clientConnection. The connection queue object has the following properti
 * send(message) - This can be called to send a message to any connected client
 * onclose() - This event is called/triggered when a connection is closed  
 
-#### Broadcaster
+## Broadcaster
 
     require("tunguska/jsgi/comet").Broadcaster(path, subscriptionApp, nextApp)
     
@@ -144,7 +144,7 @@ the subscriptionApp will be called next and can handle defining any subscription
 should be made (to the hub) and routing received messages to the connection queue.
 If the path is not matched, the nextApp is called.      
 
-#### Subscriber
+## Subscriber
 
     require("tunguska/jsgi/comet").Subscriber(subscriptions, nextApp)
 
@@ -153,7 +153,7 @@ setup argument, or if the subscriptions argument is omitted, any subscriptions
 provided in the request, and subscribes to given channels on the hub, and forwards any received messages
 to the connection queue object.
 
-#### Notifications
+## Notifications
 
     require("tunguska/jsgi/comet").Notifications(path, subscriptions, nextApp)
 
@@ -161,7 +161,7 @@ This combines all three middleware appliance above into a single middleware appl
 the comet end-point. The subscriptions parameter is optional and can specify the set
 of channels to subscribe to. The nextApp is called for requests that don't match the path.
  
-### connector
+# connector
 
     require("tunguska/connector").Connector(connectionId, stream);
     
