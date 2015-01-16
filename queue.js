@@ -8,7 +8,7 @@ var connector = require("./connector"),
 var connections = {};
 var hubConnections = [];
 var leastRecentlyUsed, mostRecentlyUsed;
-var harvesterStarted = false;
+
 exports.expirationTime = 15000;
 
 // this gets a queue that can be used to add events and pull events
@@ -36,12 +36,28 @@ var connectionPrototype = {
 	setActive : function(active){
 		if(active){
 			// remove from inactive queue
-			this.previous && (mostRecentlyUsed == this) && (mostRecentlyUsed = this.previous);
-			this.previous && (this.previous.next = this.next);
-				if(this.previous &&  (this.previous.next == this.previous))
+			if (this.previous) {
+				// adjust the most recently used connection
+				if (mostRecentlyUsed === this) {
+					mostRecentlyUsed = this.previous;
+				}
+				this.previous.next = this.next;
+				if (this.previous === this.next) {
+					// something went wrong with our queue.  quite possibly something has a stale previous or next
+					// reference
 					throw new Error("oh no");
-			this.next && (leastRecentlyUsed == this) && (leastRecentlyUsed = this.next);
-			this.next && (this.next.previous = this.previous);
+				}
+			}
+
+			if (this.next) {
+				// adjust the least recently used connection
+				if (leastRecentlyUsed === this) {
+					leastRecentlyUsed = this.next;
+				}
+				this.next.previous = this.previous;
+			}
+
+			this.next = this.previous = null;
 			this.active = true;
 		}else if(this.active){
 			// add to inactive queue
@@ -49,8 +65,6 @@ var connectionPrototype = {
 			this.active = false;
 			if(mostRecentlyUsed && mostRecentlyUsed != this){
 				mostRecentlyUsed.next = this;
-				if(mostRecentlyUsed.next == mostRecentlyUsed)
-					throw new Error("oh no");
 				this.previous = mostRecentlyUsed;
 			}
 			mostRecentlyUsed = this;
@@ -69,6 +83,7 @@ var connectionPrototype = {
 							leastRecentlyUsed.close();
 						}
 						leastRecentlyUsed = leastRecentlyUsed.next;
+						leastRecentlyUsed.previous = null;
 					}
 				}, 1000);
 			}
