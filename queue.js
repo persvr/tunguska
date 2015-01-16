@@ -83,7 +83,9 @@ var connectionPrototype = {
 							leastRecentlyUsed.close();
 						}
 						leastRecentlyUsed = leastRecentlyUsed.next;
-						leastRecentlyUsed.previous = null;
+						if (leastRecentlyUsed) {
+							leastRecentlyUsed.previous = null;
+						}
 					}
 				}, 1000);
 			}
